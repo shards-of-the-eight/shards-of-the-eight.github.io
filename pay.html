@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shards of the Eight - Payment</title>
+<style>
+  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #1b1626; color: #fff6d8; font: 18px/1.5 system-ui, sans-serif; text-align: center; padding: 24px; box-sizing: border-box; }
+  h1 { color: #e8b53c; font-size: 22px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Shards of the Eight</h1>
+  <p id="m">Opening the secure payment window...</p>
+  <p><a href="./privacy.html" style="color:#6fb4e0">Privacy</a> &middot; <a href="./terms.html" style="color:#6fb4e0">Terms and refunds</a></p>
+</main>
+<!-- Paddle's checkout opens itself for the ?_ptxn=… transaction (created by our payment server). -->
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+<script>
+  // Public client-side token from Paddle > Developer tools > Authentication (safe to publish). Empty = payments not set up.
+  var PADDLE_TOKEN = '';
+  var PADDLE_SANDBOX = true;
+  var paid = false;
+  if (!PADDLE_TOKEN || !window.Paddle) {
+    document.getElementById('m').textContent = 'Payments are not open yet. Nothing was charged. Close this page to go back to the game.';
+  } else {
+    if (PADDLE_SANDBOX) Paddle.Environment.set('sandbox');
+    Paddle.Initialize({
+      token: PADDLE_TOKEN,
+      checkout: { settings: { displayMode: 'overlay', theme: 'dark', successUrl: location.origin + location.pathname.replace(/pay\.html$/, 'paid.html') } },
+      eventCallback: function (e) {
+        if (e && e.name === 'checkout.completed') paid = true;
+        if (e && e.name === 'checkout.closed' && !paid) location.href = './paid.html?cancelled=1';
+      }
+    });
+  }
+</script>
+</body>
+</html>

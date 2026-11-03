@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shards of the Eight</title>
+<style>
+  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #1b1626; color: #fff6d8; font: 18px/1.5 system-ui, sans-serif; text-align: center; padding: 24px; box-sizing: border-box; }
+  h1 { color: #e8b53c; font-size: 24px; }
+</style>
+</head>
+<body>
+<main>
+  <h1 id="t">Thank you!</h1>
+  <p id="m">Your payment went through. Close this page and go back to Shards of the Eight: your item appears in the Shop within a minute.</p>
+</main>
+<script>
+  if (new URLSearchParams(location.search).has('cancelled')) {
+    document.getElementById('t').textContent = 'Payment cancelled';
+    document.getElementById('m').textContent = 'Nothing was charged. Close this page to go back to the game.';
+  }
+</script>
+</body>
+</html>
