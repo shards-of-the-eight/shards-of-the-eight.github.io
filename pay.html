@@ -19,8 +19,8 @@
 <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
 <script>
   // Public client-side token from Paddle > Developer tools > Authentication (safe to publish). Empty = payments not set up.
-  var PADDLE_TOKEN = 'test_6adb903b3a0938f0c17a89cb635';
-  var PADDLE_SANDBOX = true;
+  var PADDLE_TOKEN = 'live_2e6f2162c16eeaacf6c0a2d1319';
+  var PADDLE_SANDBOX = false;
   var paid = false;
   if (!PADDLE_TOKEN || !window.Paddle) {
     document.getElementById('m').textContent = 'Payments are not open yet. Nothing was charged. Close this page to go back to the game.';
