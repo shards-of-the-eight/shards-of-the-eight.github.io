@@ -22,7 +22,7 @@
 <p>The purchase code lets you restore purchases on another device (Shop &gt; Restore). Keep it private.</p>
 
 <h2>Arena duels and moving heroes</h2>
-<p>When you duel a friend or move heroes between devices, the two devices connect directly to each other. A connection service (PeerJS) briefly sees both devices' IP addresses and the random 6-letter code to connect them. In a duel, your opponent sees your hero's name, looks, stats and deck. When moving heroes, your save goes directly to your other device.</p>
+<p>When you duel a friend or move heroes between devices, the two devices connect through our relay server on Cloudflare using a random 6-letter code. It passes messages between the devices while they are connected and stores nothing. In a duel, your opponent sees your hero's name, looks, stats and deck. When moving heroes, your save passes through the relay to your other device.</p>
 
 <h2>Children</h2>
 <p>The game is not directed at children under 13 and collects no personal information from anyone. Players under 18 should ask a parent or guardian before buying anything.</p>
