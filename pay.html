@@ -22,16 +22,19 @@
   var PADDLE_TOKEN = 'live_2e6f2162c16eeaacf6c0a2d1319';
   var PADDLE_SANDBOX = false;
   var paid = false;
+  // Started from the Home Screen app: the page after payment says to switch back to it.
+  var fromApp = new URLSearchParams(location.search).has('app');
+  var paidPage = location.origin + location.pathname.replace(/pay\.html$/, 'paid.html');
   if (!PADDLE_TOKEN || !window.Paddle) {
-    document.getElementById('m').textContent = 'Payments are not open yet. Nothing was charged. Close this page to go back to the game.';
+    location.href = './paid.html?cancelled=1' + (fromApp ? '&app=1' : '');
   } else {
     if (PADDLE_SANDBOX) Paddle.Environment.set('sandbox');
     Paddle.Initialize({
       token: PADDLE_TOKEN,
-      checkout: { settings: { displayMode: 'overlay', theme: 'dark', successUrl: location.origin + location.pathname.replace(/pay\.html$/, 'paid.html') } },
+      checkout: { settings: { displayMode: 'overlay', theme: 'dark', successUrl: paidPage + (fromApp ? '?app=1' : '') } },
       eventCallback: function (e) {
         if (e && e.name === 'checkout.completed') paid = true;
-        if (e && e.name === 'checkout.closed' && !paid) location.href = './paid.html?cancelled=1';
+        if (e && e.name === 'checkout.closed' && !paid) location.href = './paid.html?cancelled=1' + (fromApp ? '&app=1' : '');
       }
     });
   }

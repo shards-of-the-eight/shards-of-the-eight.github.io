@@ -7,18 +7,36 @@
 <style>
   body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #1b1626; color: #fff6d8; font: 18px/1.5 system-ui, sans-serif; text-align: center; padding: 24px; box-sizing: border-box; }
   h1 { color: #e8b53c; font-size: 24px; }
+  a.back { display: inline-block; margin-top: 12px; padding: 14px 28px; background: #e8b53c; color: #120d18; font-weight: 700; text-decoration: none; border-radius: 6px; }
+  a.back[hidden] { display: none; }
 </style>
 </head>
 <body>
 <main>
   <h1 id="t">Thank you!</h1>
-  <p id="m">Your payment went through. Close this page and go back to Shards of the Eight: your item appears in the Shop within a minute.</p>
+  <p id="m">Your payment went through. Going back to the game...</p>
+  <a class="back" id="back" href="./play.html" hidden>Back to the game</a>
 </main>
 <script>
-  if (new URLSearchParams(location.search).has('cancelled')) {
+  var q = new URLSearchParams(location.search);
+  var fromApp = q.has('app');
+  if (q.has('cancelled')) {
     document.getElementById('t').textContent = 'Payment cancelled';
-    document.getElementById('m').textContent = 'Nothing was charged. Close this page to go back to the game.';
+    document.getElementById('m').textContent = 'Nothing was charged. Going back to the game...';
   }
+  // The game opened this page, so closing it lands the player back in the game, where the Shop refreshes itself.
+  window.close();
+  // If the phone would not close it: a browser player follows the link. A player from the Home Screen app
+  // must switch back to it, because a link would open the browser's copy of the game, without their heroes.
+  setTimeout(function () {
+    var done = q.has('cancelled') ? 'Nothing was charged. ' : 'Your payment went through. Your item appears in the Shop within a minute. ';
+    if (fromApp) {
+      document.getElementById('m').textContent = done + 'Now switch back to Shards of the Eight on your Home Screen.';
+    } else {
+      document.getElementById('m').textContent = done;
+      document.getElementById('back').hidden = false;
+    }
+  }, 700);
 </script>
 </body>
 </html>
